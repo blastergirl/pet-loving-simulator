@@ -117,6 +117,7 @@
     .pet-card:nth-child(2) { animation-delay: 0.2s; }
     .pet-card:nth-child(3) { animation-delay: 0.3s; }
     .pet-card:nth-child(4) { animation-delay: 0.4s; }
+    .pet-card:nth-child(5) { animation-delay: 0.5s; }
 
     .pet-card:hover {
       border-color: #e44d7b;
@@ -137,6 +138,7 @@
     .pet-card:nth-child(2) .pet-img { animation-delay: 0.5s; }
     .pet-card:nth-child(3) .pet-img { animation-delay: 1s; }
     .pet-card:nth-child(4) .pet-img { animation-delay: 1.5s; }
+    .pet-card:nth-child(5) .pet-img { animation-delay: 2s; }
 
     .pet-card .name {
       font-weight: 700;
@@ -1041,6 +1043,10 @@
         <img class="pet-img" src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200" alt="Hamster">
         <span class="name">Hamster</span>
       </div>
+      <div class="pet-card" onclick="choosePet('fish')">
+        <img class="pet-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=200" alt="Fish">
+        <span class="name">Fish</span>
+      </div>
     </div>
   </div>
 
@@ -1086,7 +1092,7 @@
       <button class="action-btn feed" onclick="openFeedOverlay()">
         <span class="icon">🍎</span> Feed
       </button>
-      <button class="action-btn play" onclick="openPlayOverlay()">
+      <button class="action-btn play" id="playBtn" onclick="openPlayOverlay()">
         <span class="icon">🎾</span> Play
       </button>
       <button class="action-btn clean" onclick="openCleanOverlay()">
@@ -1095,7 +1101,7 @@
       <button class="action-btn coddle" onclick="startCoddleMode()">
         <span class="icon">🤗</span> Coddle
       </button>
-      <button class="action-btn visit" onclick="doAction('visit')">
+      <button class="action-btn visit" id="visitBtn" onclick="doAction('visit')">
         <span class="icon">👀</span> Visit
       </button>
       <button class="action-btn care" onclick="doAction('care')">
@@ -1262,6 +1268,26 @@
         tired: ['*burrows into bedding*', '*tiny yawns*']
       },
       reactions: ['❤️', '🌻', '⭐', '✨', '💕']
+    },
+    fish: {
+      emoji: '🐟',
+      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400',
+      label: 'Fish',
+      foods: ['🐟','🦐','🌿','🥣'],
+      phrases: {
+        feed: ['*nibbles flakes*', '*swims happily*', '*little bubbles*'],
+        play: ['*swims in circles*', '*drifts peacefully*', '*explores the tank*'],
+        clean: ['*water feels nice*', '*shimmies*', '*clean tank, happy fish*'],
+        coddle: ['*swims to the glass*', '*waggles fins*', '*says hello*'],
+        visit: ['*perks up*', '*swims over*', '*curious*'],
+        care: ['*feels better*', '*healthy and swimming*', '*thank you*'],
+        idle: ['*drifts*', '*blub blub*', '*exploring*'],
+        hungry: ['*at the surface*', '*looking for food*'],
+        sad: ['*hiding*', '*slow swimming*'],
+        dirty: ['*water cloudy*', '*needs clean tank*'],
+        tired: ['*resting by the plants*', '*calm*']
+      },
+      reactions: ['❤️', '🐟', '🫧', '✨', '💕']
     }
   };
 
@@ -1384,6 +1410,16 @@
     document.getElementById('selectScreen').style.display = 'none';
     document.getElementById('careScreen').style.display = 'block';
     document.getElementById('careScreen').style.animation = 'slideIn 0.4s ease';
+
+    var playBtn = document.getElementById('playBtn');
+    var visitBtn = document.getElementById('visitBtn');
+    if (currentPet === 'fish') {
+      if (playBtn) playBtn.style.display = 'none';
+      if (visitBtn) visitBtn.style.display = 'none';
+    } else {
+      if (playBtn) playBtn.style.display = '';
+      if (visitBtn) visitBtn.style.display = '';
+    }
 
     updateBars();
     updateMood();
@@ -1722,6 +1758,10 @@
     if (decayInterval) clearInterval(decayInterval);
     document.getElementById('careScreen').style.display = 'none';
     document.getElementById('selectScreen').style.display = 'block';
+    var playBtn = document.getElementById('playBtn');
+    var visitBtn = document.getElementById('visitBtn');
+    if (playBtn) playBtn.style.display = '';
+    if (visitBtn) visitBtn.style.display = '';
     currentPet = null;
     petName = '';
   }
