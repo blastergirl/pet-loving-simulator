@@ -124,16 +124,19 @@
       box-shadow: 0 8px 25px rgba(228, 77, 123, 0.25);
     }
 
-    .pet-card .emoji {
-      font-size: 3.5rem;
+    .pet-card .pet-img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
       display: block;
-      margin-bottom: 10px;
+      margin: 0 auto 10px;
       animation: float 3s ease-in-out infinite;
     }
 
-    .pet-card:nth-child(2) .emoji { animation-delay: 0.5s; }
-    .pet-card:nth-child(3) .emoji { animation-delay: 1s; }
-    .pet-card:nth-child(4) .emoji { animation-delay: 1.5s; }
+    .pet-card:nth-child(2) .pet-img { animation-delay: 0.5s; }
+    .pet-card:nth-child(3) .pet-img { animation-delay: 1s; }
+    .pet-card:nth-child(4) .pet-img { animation-delay: 1.5s; }
 
     .pet-card .name {
       font-weight: 700;
@@ -201,16 +204,22 @@
     }
 
     .pet-display {
-      font-size: 6rem;
-      animation: float 3s ease-in-out infinite;
       position: relative;
       z-index: 2;
       user-select: none;
       cursor: pointer;
       transition: transform 0.2s;
+      animation: float 3s ease-in-out infinite;
     }
-
-    .pet-display:active {
+    .pet-display .pet-img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .pet-display:active .pet-img {
       animation: wiggle 0.3s ease;
     }
 
@@ -373,9 +382,13 @@
       animation: bounceIn 0.4s ease;
     }
 
-    .modal .modal-emoji {
-      font-size: 4rem;
-      margin-bottom: 12px;
+    .modal .modal-pet-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: block;
     }
 
     .modal h2 {
@@ -525,18 +538,18 @@
       text-align: center;
       background: #f8f8f8;
       border-radius: 16px;
-      cursor: grab;
+      cursor: pointer;
       user-select: none;
-      touch-action: none;
       transition: transform 0.15s;
     }
-    .food-item:active, .toy-item:active {
-      cursor: grabbing;
+    .food-item:hover, .toy-item:hover {
+      transform: scale(1.05);
+      background: #fff0f0;
     }
-    .food-item.dragging, .toy-item.dragging {
-      opacity: 0.9;
-      transform: scale(1.1);
-      z-index: 50;
+    .food-item.chosen {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
     }
     .feed-pet-zone {
       background: linear-gradient(180deg, #e8f4fd 0%, #d4f0d4 100%);
@@ -558,26 +571,21 @@
       position: relative;
       display: inline-block;
     }
-    .feed-pet-zone .pet-emoji {
-      font-size: 4rem;
+    .feed-pet-zone .pet-img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
       display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
     }
-    .mouth-drop-zone {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 50px;
-      margin-top: -10px;
+    .feed-pet-zone .pet-img.munching {
+      animation: munch 0.5s ease;
     }
     @keyframes munch {
       0%, 100% { transform: scale(1); }
       30% { transform: scale(1.15); }
       60% { transform: scale(0.95); }
-    }
-    .pet-emoji.munching {
-      animation: munch 0.5s ease;
     }
     .food-flying {
       position: fixed;
@@ -610,32 +618,174 @@
       background: linear-gradient(180deg, #e8f4fd 0%, #d4f0d4 100%);
       border-radius: 20px;
       padding: 30px;
-      min-height: 180px;
+      min-height: 200px;
       position: relative;
-      display: none;
-    }
-    .play-zone.active {
-      display: block;
+      margin-bottom: 16px;
     }
     .play-zone .pet-playing {
-      font-size: 4.5rem;
       position: absolute;
-      animation: runAround 2.5s ease-in-out infinite;
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 50%;
     }
     .play-zone .toy-with-pet {
       font-size: 2rem;
       position: absolute;
+      pointer-events: none;
+    }
+    /* Kite: pet holds kite and runs with it */
+    .play-zone.play-kite .pet-playing {
+      animation: runWithKite 3s ease-in-out infinite;
+    }
+    .play-zone.play-kite .toy-with-pet {
+      font-size: 2.2rem;
+      animation: kiteFly 3s ease-in-out infinite;
+    }
+    @keyframes runWithKite {
+      0%, 100% { left: 10%; top: 45%; }
+      25% { left: 55%; top: 35%; }
+      50% { left: 65%; top: 55%; }
+      75% { left: 25%; top: 50%; }
+    }
+    @keyframes kiteFly {
+      0%, 100% { left: 18%; top: 25%; transform: rotate(-10deg); }
+      25% { left: 62%; top: 18%; transform: rotate(5deg); }
+      50% { left: 72%; top: 38%; transform: rotate(-5deg); }
+      75% { left: 32%; top: 32%; transform: rotate(8deg); }
+    }
+    /* Ball: pet chases and pushes the ball */
+    .play-zone.play-ball .pet-playing {
+      animation: chaseBall 2.8s ease-in-out infinite;
+    }
+    .play-zone.play-ball .toy-with-pet {
+      animation: ballRoll 2.8s ease-in-out infinite;
+    }
+    @keyframes ballRoll {
+      0%, 100% { left: 20%; top: 50%; }
+      25% { left: 55%; top: 45%; }
+      50% { left: 60%; top: 55%; }
+      75% { left: 30%; top: 52%; }
+    }
+    @keyframes chaseBall {
+      0%, 100% { left: 12%; top: 48%; }
+      25% { left: 48%; top: 42%; }
+      50% { left: 52%; top: 52%; }
+      75% { left: 22%; top: 50%; }
+    }
+    /* Teddy: pet hugs teddy */
+    .play-zone.play-teddy .pet-playing {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      animation: hugTeddy 1.5s ease-in-out infinite;
+    }
+    .play-zone.play-teddy .toy-with-pet {
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      animation: teddySqueeze 1.5s ease-in-out infinite;
+    }
+    @keyframes hugTeddy {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.05); }
+    }
+    @keyframes teddySqueeze {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.1); }
+    }
+    /* Other toys: simple bounce together */
+    .play-zone.play-other .pet-playing {
+      left: 35%;
+      top: 45%;
+      animation: playBounce 1.2s ease-in-out infinite;
+    }
+    .play-zone.play-other .toy-with-pet {
+      left: 55%;
+      top: 45%;
       animation: toyBounce 0.6s ease-in-out infinite;
     }
-    @keyframes runAround {
-      0%, 100% { left: 15%; top: 30%; }
-      25% { left: 60%; top: 20%; }
-      50% { left: 55%; top: 55%; }
-      75% { left: 20%; top: 50%; }
+    @keyframes playBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
     @keyframes toyBounce {
       0%, 100% { transform: translateY(0) scale(1); }
       50% { transform: translateY(-15px) scale(1.1); }
+    }
+
+    /* Bunny: hop around */
+    .play-zone.play-bunny .pet-playing {
+      animation: bunnyHop 2.2s ease-in-out infinite;
+    }
+    .play-zone.play-bunny .toy-with-pet {
+      animation: bunnyToyBounce 2.2s ease-in-out infinite;
+    }
+    @keyframes bunnyHop {
+      0%, 100% { left: 15%; top: 50%; transform: translateY(0) scale(1); }
+      15% { left: 25%; top: 35%; transform: translateY(-25px) scale(1.05); }
+      30% { left: 50%; top: 40%; transform: translateY(-20px) scale(1.02); }
+      45% { left: 65%; top: 50%; transform: translateY(-25px) scale(1.05); }
+      60% { left: 55%; top: 55%; transform: translateY(-15px) scale(1.02); }
+      75% { left: 30%; top: 52%; transform: translateY(-22px) scale(1.05); }
+    }
+    @keyframes bunnyToyBounce {
+      0%, 100% { left: 25%; top: 38%; transform: translateY(0); }
+      15% { left: 35%; top: 25%; transform: translateY(-10px); }
+      30% { left: 58%; top: 28%; transform: translateY(-8px); }
+      45% { left: 72%; top: 38%; transform: translateY(-12px); }
+      60% { left: 62%; top: 42%; transform: translateY(-5px); }
+      75% { left: 38%; top: 40%; transform: translateY(-8px); }
+    }
+
+    /* Cat: pounce and chase toy (e.g. yarn, feather) */
+    .play-zone.play-cat .pet-playing {
+      animation: catChaseToy 2.8s ease-in-out infinite;
+    }
+    .play-zone.play-cat .toy-with-pet {
+      animation: catToyMove 2.8s ease-in-out infinite;
+    }
+    @keyframes catToyMove {
+      0%, 100% { left: 25%; top: 35%; }
+      20% { left: 65%; top: 30%; }
+      40% { left: 60%; top: 55%; }
+      60% { left: 28%; top: 58%; }
+      80% { left: 48%; top: 38%; }
+    }
+    @keyframes catChaseToy {
+      0%, 100% { left: 18%; top: 42%; transform: scale(1); }
+      20% { left: 52%; top: 38%; transform: scale(1.02); }
+      40% { left: 48%; top: 52%; transform: scale(1); }
+      60% { left: 22%; top: 54%; transform: scale(1.02); }
+      80% { left: 42%; top: 40%; transform: scale(1); }
+    }
+
+    /* Hamster: running around in the grass */
+    .play-zone.play-hamster {
+      background: linear-gradient(180deg, #7cb342 0%, #8bc34a 30%, #9ccc65 60%, #aed581 100%);
+      background-image: url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600'), linear-gradient(180deg, #7cb342 0%, #9ccc65 100%);
+      background-size: cover;
+      background-position: center;
+    }
+    .play-zone.play-hamster .pet-playing {
+      animation: hamsterScurry 2s ease-in-out infinite;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .play-zone.play-hamster .toy-with-pet {
+      animation: hamsterToy 2s ease-in-out infinite;
+    }
+    @keyframes hamsterScurry {
+      0%, 100% { left: 20%; top: 50%; transform: scale(0.9); }
+      25% { left: 55%; top: 45%; transform: scale(0.92); }
+      50% { left: 60%; top: 55%; transform: scale(0.9); }
+      75% { left: 28%; top: 52%; transform: scale(0.92); }
+    }
+    @keyframes hamsterToy {
+      0%, 100% { left: 30%; top: 42%; font-size: 1.6rem; }
+      25% { left: 58%; top: 38%; font-size: 1.7rem; }
+      50% { left: 65%; top: 48%; font-size: 1.6rem; }
+      75% { left: 35%; top: 45%; font-size: 1.7rem; }
     }
 
     /* Clean overlay – shower room */
@@ -655,6 +805,118 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: 2.5rem;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.4);
+      transition: background 0.2s;
+    }
+    .shower-room .shower-head:hover {
+      background: rgba(255,255,255,0.7);
+    }
+    .shower-room .shower-head.water-on {
+      background: rgba(135, 206, 235, 0.6);
+    }
+    .water-stream {
+      position: absolute;
+      top: 52px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 220px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s;
+      z-index: 2;
+      overflow: visible;
+    }
+    .shower-room.water-on .water-stream {
+      opacity: 1;
+    }
+    .water-stream::before {
+      content: '';
+      position: absolute;
+      left: 5%;
+      right: 5%;
+      top: 0;
+      bottom: 0;
+      background: linear-gradient(180deg,
+        rgba(200, 230, 255, 0.9) 0%,
+        rgba(174, 214, 241, 0.85) 15%,
+        rgba(135, 206, 235, 0.75) 40%,
+        rgba(100, 180, 220, 0.6) 70%,
+        rgba(135, 206, 235, 0.5) 100%
+      );
+      border-radius: 0 0 50% 50%;
+      animation: waterFlow 0.5s ease-in-out infinite alternate;
+    }
+    .water-drops {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .water-drops .drop {
+      position: absolute;
+      display: block;
+      width: 5px;
+      height: 10px;
+      background: rgba(174, 214, 241, 0.85);
+      border-radius: 50%;
+      animation: dropFall 0.9s linear infinite;
+    }
+    .water-drops .drop:nth-child(1) { left: 20%; animation-delay: 0s; }
+    .water-drops .drop:nth-child(2) { left: 40%; animation-delay: 0.15s; }
+    .water-drops .drop:nth-child(3) { left: 50%; animation-delay: 0.3s; }
+    .water-drops .drop:nth-child(4) { left: 60%; animation-delay: 0.45s; }
+    .water-drops .drop:nth-child(5) { left: 80%; animation-delay: 0.6s; }
+    @keyframes dropFall {
+      0% { transform: translateY(-10px); opacity: 0.9; }
+      100% { transform: translateY(220px); opacity: 0.3; }
+    }
+    @keyframes waterFlow {
+      from { opacity: 0.7; }
+      to { opacity: 1; }
+    }
+    .pet-getting-wet {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .shower-room.water-on .pet-getting-wet {
+      opacity: 1;
+      background: radial-gradient(circle at 50% 0%, rgba(174, 214, 241, 0.35) 0%, rgba(135, 206, 235, 0.15) 50%, transparent 70%);
+      animation: wetShine 1.2s ease-in-out infinite;
+    }
+    @keyframes wetShine {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.15); }
+    }
+    .pet-enjoying {
+      position: absolute;
+      left: 50%;
+      top: 38%;
+      transform: translate(-50%, -50%);
+      font-size: 1.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 5;
+    }
+    .shower-room.pet-happy .pet-enjoying {
+      opacity: 1;
+      animation: moodBubble 1.5s ease-in-out infinite;
     }
     .shower-room .tiles {
       position: absolute;
@@ -673,24 +935,29 @@
     .clean-pet-zone {
       position: absolute;
       left: 50%;
-      top: 45%;
+      top: 48%;
       transform: translate(-50%, -50%);
-      width: 120px;
-      height: 120px;
+      width: 160px;
+      height: 160px;
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 3;
     }
-    .clean-pet-zone .pet-emoji {
-      font-size: 4.5rem;
+    .clean-pet-zone .pet-img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
       transition: transform 0.2s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
-    .clean-pet-zone .pet-emoji.being-cleaned {
+    .clean-pet-zone .pet-img.being-cleaned {
       animation: munch 0.3s ease;
     }
     .soap-bar {
       position: absolute;
-      font-size: 3rem;
+      font-size: 0.9rem;
       cursor: grab;
       user-select: none;
       touch-action: none;
@@ -698,9 +965,27 @@
       bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
+      padding: 6px 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #fff8e7, #ffecb3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 56px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+    .soap-bar:hover {
+      background: linear-gradient(145deg, #fffbf0, #fff3c4);
     }
     .soap-bar.dragging {
       cursor: grabbing;
+      transform: none;
+      width: 56px;
+      height: 32px;
     }
     .bubble {
       position: absolute;
@@ -741,19 +1026,19 @@
     <p>Choose a pet to love and take care of!</p>
     <div class="pet-grid">
       <div class="pet-card" onclick="choosePet('bunny')">
-        <span class="emoji">🐰</span>
+        <img class="pet-img" src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=200" alt="Bunny">
         <span class="name">Bunny Rabbit</span>
       </div>
       <div class="pet-card" onclick="choosePet('dog')">
-        <span class="emoji">🐶</span>
+        <img class="pet-img" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200" alt="Dog">
         <span class="name">Dog</span>
       </div>
       <div class="pet-card" onclick="choosePet('cat')">
-        <span class="emoji">🐱</span>
+        <img class="pet-img" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200" alt="Cat">
         <span class="name">Cat</span>
       </div>
       <div class="pet-card" onclick="choosePet('hamster')">
-        <span class="emoji">🐹</span>
+        <img class="pet-img" src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200" alt="Hamster">
         <span class="name">Hamster</span>
       </div>
     </div>
@@ -820,39 +1105,38 @@
   </div>
 </div>
 
-<!-- Feed overlay: drag food to pet's mouth -->
+<!-- Feed overlay: pick food, then it flies to pet and pet eats -->
 <div class="action-overlay feed-overlay" id="feedOverlay">
   <div class="overlay-box">
     <div class="overlay-header">
-      <span class="overlay-title">🍎 Pick food or drink – drag to your pet!</span>
+      <span class="overlay-title">🍎 Pick a food or drink – tap to give it to your pet!</span>
       <button class="overlay-close" onclick="closeFeedOverlay()">✕</button>
     </div>
     <div class="overlay-body">
-      <div class="food-grid" id="foodGrid"></div>
       <div class="feed-pet-zone" id="feedPetZone">
-        <span class="zone-label">Drag food here →</span>
+        <span class="zone-label" id="feedZoneLabel">Your pet</span>
         <div class="pet-and-mouth">
-          <span class="pet-emoji" id="feedPetEmoji"></span>
-          <div class="mouth-drop-zone" id="mouthDropZone"></div>
+          <img class="pet-img" id="feedPetImg" alt="Pet" src="">
         </div>
       </div>
+      <div class="food-grid" id="foodGrid"></div>
     </div>
   </div>
 </div>
 
-<!-- Play overlay: pick a toy, pet plays with it -->
+<!-- Play overlay: one screen – pick toy, give to pet, pet runs around -->
 <div class="action-overlay play-overlay" id="playOverlay">
   <div class="overlay-box">
     <div class="overlay-header">
-      <span class="overlay-title">🎾 Choose a toy to play with!</span>
+      <span class="overlay-title" id="playOverlayTitle">🎾 Choose a toy – your pet will play their way!</span>
       <button class="overlay-close" onclick="closePlayOverlay()">✕</button>
     </div>
     <div class="overlay-body">
-      <div class="toy-grid" id="toyGrid"></div>
       <div class="play-zone" id="playZone">
-        <span class="pet-playing" id="playPetEmoji"></span>
+        <img class="pet-playing" id="playPetImg" alt="Pet" src="">
         <span class="toy-with-pet" id="playToyEmoji"></span>
       </div>
+      <div class="toy-grid" id="toyGrid"></div>
     </div>
   </div>
 </div>
@@ -861,16 +1145,23 @@
 <div class="action-overlay clean-overlay" id="cleanOverlay">
   <div class="overlay-box">
     <div class="overlay-header">
-      <span class="overlay-title">🛁 Shower room – drag soap to clean!</span>
+      <span class="overlay-title">🛁 Click 🚿 for water, drag soap to clean!</span>
       <button class="overlay-close" onclick="closeCleanOverlay()">✕</button>
     </div>
-    <div class="shower-room">
-      <span class="shower-head">🚿</span>
+    <div class="shower-room" id="showerRoom">
+      <button type="button" class="shower-head" id="showerHeadBtn" title="Click to turn water on/off">🚿</button>
+      <div class="water-stream" id="waterStream">
+        <div class="water-drops">
+          <span class="drop"></span><span class="drop"></span><span class="drop"></span><span class="drop"></span><span class="drop"></span>
+        </div>
+      </div>
+      <div class="pet-getting-wet" aria-hidden="true"></div>
       <div class="tiles"></div>
       <div class="clean-pet-zone" id="cleanPetZone">
-        <span class="pet-emoji" id="cleanPetEmoji"></span>
+        <img class="pet-img" id="cleanPetImg" alt="Pet" src="">
+        <div class="pet-enjoying" id="petEnjoying">😊 💕</div>
       </div>
-      <div class="soap-bar" id="soapBar">🧼</div>
+      <button type="button" class="soap-bar" id="soapBar" title="Drag soap over your pet to clean">🧼 Soap</button>
     </div>
     <div class="clean-progress-wrap">
       <div class="clean-progress-bar"><div class="clean-progress-fill" id="cleanProgressFill"></div></div>
@@ -881,7 +1172,7 @@
 <!-- Naming Modal -->
 <div class="modal-overlay" id="nameModal">
   <div class="modal">
-    <div class="modal-emoji" id="modalEmoji"></div>
+    <img class="modal-pet-img" id="modalPetImg" alt="Pet" src="">
     <h2>Name Your Pet!</h2>
     <p id="modalPrompt"></p>
     <input type="text" id="nameInput" placeholder="Type a name..." maxlength="20" autocomplete="off">
@@ -894,7 +1185,9 @@
   const PETS = {
     bunny: {
       emoji: '🐰',
+      image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400',
       label: 'Bunny Rabbit',
+      foods: ['🥕','🥬','🌿','🥒','🥗','🍎'],
       phrases: {
         feed: ['*munch munch* Yummy carrots!', '*nibble nibble* So tasty!', 'Nom nom! Thank you!'],
         play: ['*boing boing* Wheee!', '*hops around happily*', 'Binky time! *jumps for joy*'],
@@ -912,7 +1205,9 @@
     },
     dog: {
       emoji: '🐶',
+      image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400',
       label: 'Dog',
+      foods: ['🍗','🥩','🍖','🥕','🍎','🥦'],
       phrases: {
         feed: ['*CHOMP CHOMP* Yum!', '*wags tail* More treats please!', '*gobbles food* Delicious!'],
         play: ['*fetches ball* Again, again!', 'WOOF! This is the best!', '*zooms around* So fun!'],
@@ -930,7 +1225,9 @@
     },
     cat: {
       emoji: '🐱',
+      image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400',
       label: 'Cat',
+      foods: ['🍗','🐟','🥩','🥛','🍖','🥓'],
       phrases: {
         feed: ['*delicately eats* Acceptable.', '*purrs while eating*', 'Finally. I was starving.'],
         play: ['*pounces on toy* Got it!', '*chases laser dot*', '*does a flip* I meant to do that.'],
@@ -948,7 +1245,9 @@
     },
     hamster: {
       emoji: '🐹',
+      image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400',
       label: 'Hamster',
+      foods: ['🌻','🥕','🥬','🥜','🍎','🥒'],
       phrases: {
         feed: ['*stuffs cheeks full* Mmph!', '*tiny nibbles* Yummy seeds!', '*cheeks bulging* Saving for later!'],
         play: ['*runs on wheel* Wheeeee!', '*tunnels through bedding*', '*does tiny parkour*'],
@@ -966,8 +1265,11 @@
     }
   };
 
-  const FOODS = ['🍎','🥕','🍗','🍕','🥗','🍪','🧁','🍇','🥛','🥤','🍩','🥒'];
   const TOYS = ['🎾','🧸','🪀','⚽','🎯','🪁'];
+  const BUNNY_TOYS = ['🧸','🪀','🎾'];
+  const CAT_TOYS = ['🧶','🪀','🧸','🎯'];
+  const DOG_TOYS = ['🎾'];
+  const HAMSTER_TOYS = ['🪀','🧸','🎾'];
 
   let currentPet = null;
   let petName = '';
@@ -975,6 +1277,34 @@
   let actionCooldown = false;
   let decayInterval = null;
   let coddleSetupDone = false;
+  let lastCatPurrTime = 0;
+  let lastHamsterSoundTime = 0;
+
+  function playCatPurr() {
+    if (currentPet !== 'cat') return;
+    var now = Date.now();
+    if (now - lastCatPurrTime < 1800) return;
+    lastCatPurrTime = now;
+    try {
+      var audio = new Audio('sounds/tanweraman-cat-purring-261128.mp3');
+      audio.volume = 0.6;
+      audio.play().catch(function() {});
+      setTimeout(function() { audio.pause(); audio.currentTime = 0; }, 1000);
+    } catch (e) {}
+  }
+
+  function playHamsterCuddle() {
+    if (currentPet !== 'hamster') return;
+    var now = Date.now();
+    if (now - lastHamsterSoundTime < 1800) return;
+    lastHamsterSoundTime = now;
+    try {
+      var audio = new Audio('sounds/freesound_community-hamster-33794.mp3');
+      audio.volume = 0.6;
+      audio.play().catch(function() {});
+      setTimeout(function() { audio.pause(); audio.currentTime = 0; }, 1500);
+    } catch (e) {}
+  }
 
   function getEventPos(e) {
     if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -985,7 +1315,8 @@
   function choosePet(type) {
     currentPet = type;
     const pet = PETS[type];
-    document.getElementById('modalEmoji').textContent = pet.emoji;
+    document.getElementById('modalPetImg').src = pet.image;
+    document.getElementById('modalPetImg').alt = pet.label;
     document.getElementById('modalPrompt').textContent = `What will you name your ${pet.label.toLowerCase()}?`;
     document.getElementById('nameInput').value = '';
     document.getElementById('nameWarning').textContent = '';
@@ -1012,7 +1343,13 @@
     stats = { hunger: 70, happiness: 70, cleanliness: 70, energy: 70 };
 
     const pet = PETS[currentPet];
-    document.getElementById('petDisplay').textContent = pet.emoji;
+    const petDisplayEl = document.getElementById('petDisplay');
+    petDisplayEl.innerHTML = '';
+    const img = document.createElement('img');
+    img.className = 'pet-img';
+    img.src = pet.image;
+    img.alt = pet.label;
+    petDisplayEl.appendChild(img);
     document.getElementById('petNameDisplay').textContent = petName;
     document.getElementById('petTypeLabel').textContent = pet.label;
 
@@ -1052,6 +1389,8 @@
         stats.energy = clamp(stats.energy + 1);
         updateBars();
         spawnReactions(PETS[currentPet].reactions, 'coddle');
+        playCatPurr();
+        playHamsterCuddle();
       }
     }
     function handleUp(e) {
@@ -1071,6 +1410,8 @@
         updateBars();
         spawnReactions(['❤️', '💕'], 'coddle');
         showMoodBubble(randomFrom([petName + ' loves you!', '*happy noises*', 'Yay!']));
+        playCatPurr();
+        playHamsterCuddle();
       }
     });
   }
@@ -1079,83 +1420,51 @@
     if (actionCooldown) return;
     const overlay = document.getElementById('feedOverlay');
     const grid = document.getElementById('foodGrid');
-    const feedPet = document.getElementById('feedPetEmoji');
-    feedPet.textContent = PETS[currentPet].emoji;
-    feedPet.classList.remove('munching');
+    const feedPetImg = document.getElementById('feedPetImg');
+    feedPetImg.src = PETS[currentPet].image;
+    feedPetImg.alt = PETS[currentPet].label;
+    feedPetImg.classList.remove('munching');
     grid.innerHTML = '';
-    FOODS.forEach(function(food) {
+    grid.style.display = 'grid';
+    document.getElementById('feedZoneLabel').textContent = 'Tap a food – it will go to your pet!';
+    (PETS[currentPet].foods || []).forEach(function(food) {
       const el = document.createElement('div');
       el.className = 'food-item';
       el.textContent = food;
       el.dataset.food = food;
+      el.addEventListener('click', function() {
+        if (el.classList.contains('chosen')) return;
+        el.classList.add('chosen');
+        grid.querySelectorAll('.food-item').forEach(function(item) { item.classList.add('chosen'); });
+        setTimeout(function() {
+          grid.style.display = 'none';
+          var rect = el.getBoundingClientRect();
+          var fromX = rect.left + rect.width / 2;
+          var fromY = rect.top + rect.height / 2;
+          feedPetWith(food, fromX, fromY);
+        }, 300);
+      });
       grid.appendChild(el);
-      setupDraggableFood(el);
     });
     overlay.classList.add('active');
   }
 
-  function setupDraggableFood(el) {
-    let startX, startY, offsetX, offsetY;
-    function start(e) {
-      e.preventDefault();
-      const pos = getEventPos(e);
-      const rect = el.getBoundingClientRect();
-      offsetX = pos.x - rect.left;
-      offsetY = pos.y - rect.top;
-      el.classList.add('dragging');
-      el.style.position = 'fixed';
-      el.style.left = (pos.x - offsetX) + 'px';
-      el.style.top = (pos.y - offsetY) + 'px';
-      el.style.zIndex = '1000';
-      document.addEventListener('mousemove', move);
-      document.addEventListener('mouseup', end);
-      document.addEventListener('touchmove', move, { passive: false });
-      document.addEventListener('touchend', end);
-    }
-    function move(e) {
-      e.preventDefault();
-      const pos = getEventPos(e);
-      el.style.left = (pos.x - offsetX) + 'px';
-      el.style.top = (pos.y - offsetY) + 'px';
-    }
-    function end(e) {
-      document.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseup', end);
-      document.removeEventListener('touchmove', move);
-      document.removeEventListener('touchend', end);
-      const pos = getEventPos(e);
-      const mouth = document.getElementById('mouthDropZone').getBoundingClientRect();
-      const centerX = parseFloat(el.style.left) + el.offsetWidth / 2;
-      const centerY = parseFloat(el.style.top) + el.offsetHeight / 2;
-      const inMouth = centerX >= mouth.left && centerX <= mouth.right && centerY >= mouth.top && centerY <= mouth.bottom;
-      el.classList.remove('dragging');
-      el.style.position = '';
-      el.style.left = '';
-      el.style.top = '';
-      el.style.zIndex = '';
-      if (inMouth) {
-        feedPetWith(el.dataset.food, pos.x, pos.y);
-        el.remove();
-      }
-    }
-    el.addEventListener('mousedown', start);
-    el.addEventListener('touchstart', start, { passive: false });
-  }
-
   function feedPetWith(food, fromX, fromY) {
-    const feedPet = document.getElementById('feedPetEmoji');
-    const mouth = document.getElementById('mouthDropZone').getBoundingClientRect();
+    const feedPetImg = document.getElementById('feedPetImg');
+    const petRect = feedPetImg.getBoundingClientRect();
+    const toX = petRect.left + petRect.width / 2;
+    const toY = petRect.top + petRect.height / 2;
     const fly = document.createElement('div');
     fly.className = 'food-flying';
     fly.textContent = food;
     fly.style.left = fromX + 'px';
     fly.style.top = fromY + 'px';
-    fly.style.setProperty('--tx', (mouth.left + mouth.width/2 - fromX) + 'px');
-    fly.style.setProperty('--ty', (mouth.top + mouth.height/2 - fromY) + 'px');
+    fly.style.setProperty('--tx', (toX - fromX) + 'px');
+    fly.style.setProperty('--ty', (toY - fromY) + 'px');
     document.body.appendChild(fly);
     setTimeout(function() { fly.remove(); }, 400);
-    feedPet.classList.add('munching');
-    setTimeout(function() { feedPet.classList.remove('munching'); }, 500);
+    feedPetImg.classList.add('munching');
+    setTimeout(function() { feedPetImg.classList.remove('munching'); }, 500);
     stats.hunger = clamp(stats.hunger + 25);
     stats.energy = clamp(stats.energy + 5);
     updateBars();
@@ -1163,6 +1472,8 @@
     spawnReactions(PETS[currentPet].reactions, 'feed');
     setTimeout(function() {
       document.getElementById('feedOverlay').classList.remove('active');
+      document.getElementById('foodGrid').style.display = '';
+      document.getElementById('foodGrid').querySelectorAll('.food-item').forEach(function(item) { item.classList.remove('chosen'); });
       updateMood();
     }, 900);
   }
@@ -1176,30 +1487,53 @@
     const overlay = document.getElementById('playOverlay');
     const grid = document.getElementById('toyGrid');
     const playZone = document.getElementById('playZone');
-    const playPet = document.getElementById('playPetEmoji');
+    const playPetImg = document.getElementById('playPetImg');
     const playToy = document.getElementById('playToyEmoji');
-    playZone.classList.remove('active');
-    playPet.style.display = '';
-    playToy.style.display = '';
+    playPetImg.src = PETS[currentPet].image;
+    playPetImg.alt = PETS[currentPet].label;
+    playPetImg.style.animation = '';
+    playPetImg.style.display = 'none';
+    playPetImg.style.left = '';
+    playPetImg.style.top = '';
+    playPetImg.style.transform = '';
+    playToy.style.display = 'none';
+    playToy.style.left = '';
+    playToy.style.top = '';
+    playToy.style.transform = '';
+    playZone.className = 'play-zone';
     grid.innerHTML = '';
-    TOYS.forEach(function(toy) {
+    var toysToShow = (currentPet === 'bunny') ? BUNNY_TOYS : (currentPet === 'dog') ? DOG_TOYS : (currentPet === 'cat') ? CAT_TOYS : (currentPet === 'hamster') ? HAMSTER_TOYS : TOYS;
+    toysToShow.forEach(function(toy) {
       const el = document.createElement('div');
       el.className = 'toy-item';
       el.textContent = toy;
       el.dataset.toy = toy;
       el.addEventListener('click', function() {
         grid.style.display = 'none';
-        playZone.classList.add('active');
-        playPet.textContent = PETS[currentPet].emoji;
+        playPetImg.style.display = 'block';
+        playToy.style.display = 'block';
         playToy.textContent = toy;
-        playToy.style.left = '55%';
-        playToy.style.top = '35%';
-        playPet.style.animation = 'runAround 2.5s ease-in-out infinite';
-        playToy.style.animation = 'toyBounce 0.6s ease-in-out infinite';
+        var duration = 3500;
+
+        if (currentPet === 'bunny') {
+          playZone.className = 'play-zone play-bunny';
+        } else if (currentPet === 'dog') {
+          playZone.className = 'play-zone play-ball';
+          playToy.textContent = '🎾';
+        } else if (currentPet === 'cat') {
+          playZone.className = 'play-zone play-cat';
+        } else if (currentPet === 'hamster') {
+          playZone.className = 'play-zone play-hamster';
+        } else {
+          playZone.className = 'play-zone play-other';
+        }
+
         setTimeout(function() {
           overlay.classList.remove('active');
-          playZone.classList.remove('active');
-          grid.style.display = '';
+          playPetImg.style.display = 'none';
+          playToy.style.display = 'none';
+          playZone.className = 'play-zone';
+          grid.style.display = 'grid';
           stats.happiness = clamp(stats.happiness + 25);
           stats.energy = clamp(stats.energy - 10);
           stats.hunger = clamp(stats.hunger - 5);
@@ -1208,28 +1542,47 @@
           showMoodBubble(randomFrom(PETS[currentPet].phrases.play));
           spawnReactions(PETS[currentPet].reactions, 'play');
           updateMood();
-        }, 3500);
+        }, duration);
       });
       grid.appendChild(el);
     });
+    grid.style.display = 'grid';
     overlay.classList.add('active');
   }
 
   function closePlayOverlay() {
     document.getElementById('playOverlay').classList.remove('active');
-    document.getElementById('playZone').classList.remove('active');
-    document.getElementById('toyGrid').style.display = '';
+    document.getElementById('playPetImg').style.display = 'none';
+    document.getElementById('playToyEmoji').style.display = 'none';
+    document.getElementById('playZone').className = 'play-zone';
+    document.getElementById('toyGrid').style.display = 'grid';
   }
 
   function openCleanOverlay() {
     if (actionCooldown) return;
     const overlay = document.getElementById('cleanOverlay');
-    const cleanPet = document.getElementById('cleanPetEmoji');
+    const showerRoom = document.getElementById('showerRoom');
+    const showerHeadBtn = document.getElementById('showerHeadBtn');
+    const cleanPet = document.getElementById('cleanPetImg');
     const soap = document.getElementById('soapBar');
     const progressFill = document.getElementById('cleanProgressFill');
-    cleanPet.textContent = PETS[currentPet].emoji;
+    cleanPet.src = PETS[currentPet].image;
+    cleanPet.alt = PETS[currentPet].label;
     cleanPet.classList.remove('being-cleaned');
     progressFill.style.width = '0%';
+    showerRoom.classList.remove('water-on', 'pet-happy');
+    showerHeadBtn.textContent = '🚿';
+    showerHeadBtn.title = 'Click to turn water on';
+    let waterOn = false;
+    function toggleWater() {
+      waterOn = !waterOn;
+      showerRoom.classList.toggle('water-on', waterOn);
+      showerRoom.classList.toggle('pet-happy', waterOn);
+      showerHeadBtn.classList.toggle('water-on', waterOn);
+      showerHeadBtn.textContent = waterOn ? '🚿' : '🚿';
+      showerHeadBtn.title = waterOn ? 'Click to turn water off' : 'Click to turn water on';
+    }
+    showerHeadBtn.onclick = toggleWater;
     let cleanCount = 0;
     const NEEDED = 8;
     function checkOverlap() {
@@ -1262,7 +1615,9 @@
         cleanCount++;
         progressFill.style.width = (cleanCount / NEEDED * 100) + '%';
         cleanPet.classList.add('being-cleaned');
+        showerRoom.classList.add('pet-happy');
         setTimeout(function() { cleanPet.classList.remove('being-cleaned'); }, 300);
+        setTimeout(function() { if (cleanCount < NEEDED) showerRoom.classList.remove('pet-happy'); }, 800);
         addBubbles();
         if (cleanCount >= NEEDED) {
           document.removeEventListener('mousemove', onMove);
@@ -1276,9 +1631,12 @@
           spawnReactions(['✨', '🫧', '💧'], 'clean');
           setTimeout(function() {
             overlay.classList.remove('active');
+            showerRoom.classList.remove('water-on', 'pet-happy');
             soap.style.position = '';
             soap.style.left = '';
             soap.style.top = '';
+            soap.style.transform = '';
+            showerHeadBtn.onclick = null;
             updateMood();
           }, 600);
         }
@@ -1312,11 +1670,16 @@
 
   function closeCleanOverlay() {
     const overlay = document.getElementById('cleanOverlay');
+    const showerRoom = document.getElementById('showerRoom');
     const soap = document.getElementById('soapBar');
+    const showerHeadBtn = document.getElementById('showerHeadBtn');
     overlay.classList.remove('active');
+    showerRoom.classList.remove('water-on', 'pet-happy');
     soap.style.position = '';
     soap.style.left = '';
     soap.style.top = '';
+    soap.style.transform = '';
+    if (showerHeadBtn) showerHeadBtn.onclick = null;
   }
 
   function startCoddleMode() {
