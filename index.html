@@ -1279,6 +1279,8 @@
   let coddleSetupDone = false;
   let lastCatPurrTime = 0;
   let lastHamsterSoundTime = 0;
+  let lastDogSoundTime = 0;
+  let lastBunnySoundTime = 0;
 
   function playCatPurr() {
     if (currentPet !== 'cat') return;
@@ -1300,6 +1302,32 @@
     lastHamsterSoundTime = now;
     try {
       var audio = new Audio('sounds/freesound_community-hamster-33794.mp3');
+      audio.volume = 0.6;
+      audio.play().catch(function() {});
+      setTimeout(function() { audio.pause(); audio.currentTime = 0; }, 1500);
+    } catch (e) {}
+  }
+
+  function playDogCuddle() {
+    if (currentPet !== 'dog') return;
+    var now = Date.now();
+    if (now - lastDogSoundTime < 1800) return;
+    lastDogSoundTime = now;
+    try {
+      var audio = new Audio('sounds/dragon-studio-barking-dog-cute-sound-463192%20(1).mp3');
+      audio.volume = 0.6;
+      audio.play().catch(function() {});
+      setTimeout(function() { audio.pause(); audio.currentTime = 0; }, 1500);
+    } catch (e) {}
+  }
+
+  function playBunnyCuddle() {
+    if (currentPet !== 'bunny') return;
+    var now = Date.now();
+    if (now - lastBunnySoundTime < 1800) return;
+    lastBunnySoundTime = now;
+    try {
+      var audio = new Audio('sounds/u_51wf53qyw2-rabbit-sounds-358172.mp3');
       audio.volume = 0.6;
       audio.play().catch(function() {});
       setTimeout(function() { audio.pause(); audio.currentTime = 0; }, 1500);
@@ -1391,6 +1419,8 @@
         spawnReactions(PETS[currentPet].reactions, 'coddle');
         playCatPurr();
         playHamsterCuddle();
+        playDogCuddle();
+        playBunnyCuddle();
       }
     }
     function handleUp(e) {
@@ -1412,6 +1442,8 @@
         showMoodBubble(randomFrom([petName + ' loves you!', '*happy noises*', 'Yay!']));
         playCatPurr();
         playHamsterCuddle();
+        playDogCuddle();
+        playBunnyCuddle();
       }
     });
   }
