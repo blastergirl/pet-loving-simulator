@@ -177,6 +177,20 @@
     .back-btn:hover {
       background: #e0e0e0;
     }
+    .customize-btn {
+      background: #f0f0f0;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    .customize-btn:hover {
+      background: #e8e0f0;
+    }
 
     .pet-name-display {
       font-size: 1.4rem;
@@ -402,6 +416,16 @@
       color: #888;
       margin-bottom: 20px;
       font-size: 0.95rem;
+    }
+    .modal-lock-warning {
+      background: #fff8e6;
+      border: 1px solid #e6d98a;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #8a7a20;
+      margin-bottom: 16px;
+      line-height: 1.4;
     }
 
     .modal input {
@@ -1016,36 +1040,189 @@
       width: 0%;
       transition: width 0.3s;
     }
+
+    .day-display {
+      text-align: center;
+      padding: 10px 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #e44d7b;
+      background: rgba(255,255,255,0.6);
+      border-radius: 12px;
+      margin: 0 20px 16px;
+    }
+    .death-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 500;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .death-overlay.active { display: flex; }
+    .death-box {
+      background: white;
+      border-radius: 24px;
+      padding: 36px;
+      max-width: 360px;
+      text-align: center;
+      animation: bounceIn 0.4s ease;
+    }
+    .death-box h2 { color: #333; margin-bottom: 12px; font-size: 1.5rem; }
+    .death-box p { color: #666; margin-bottom: 24px; line-height: 1.5; }
+    .death-box .start-over-btn {
+      background: linear-gradient(145deg, #e44d7b, #f7797d);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .death-box .start-over-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+    .scream-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 400;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .scream-overlay.active { display: flex; }
+    .scream-box {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      max-width: 340px;
+      text-align: center;
+      animation: bounceIn 0.4s ease;
+      border: 3px solid #e44d7b;
+    }
+    .scream-box p { font-size: 1.15rem; color: #333; margin-bottom: 20px; line-height: 1.5; font-weight: 600; }
+    .scream-box .ok-btn {
+      background: #e44d7b;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .customize-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .customize-overlay.active { display: flex; }
+    .customize-box {
+      background: white;
+      border-radius: 24px;
+      max-width: 380px;
+      width: 100%;
+      overflow: hidden;
+      animation: bounceIn 0.35s ease;
+    }
+    .customize-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .customize-title { font-size: 1.15rem; font-weight: 700; color: #333; }
+    .customize-body { padding: 20px; }
+    .variant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 12px;
+    }
+    .variant-option {
+      text-align: center;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 10px;
+      border: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    .variant-option:hover { border-color: #e44d7b; background: #fff5f8; }
+    .variant-option.selected { border-color: #e44d7b; background: #fff0f4; }
+    .variant-option img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 6px;
+    }
+    .variant-option .variant-name { font-size: 0.8rem; font-weight: 600; color: #444; }
+    .pet-card.locked {
+      opacity: 0.6;
+      position: relative;
+    }
+    .pet-card .lock-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: #888;
+      background: rgba(255,255,255,0.9);
+      padding: 4px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .pet-card.your-pet .lock-badge {
+      color: #e44d7b;
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
 
+<div class="day-display" id="dayDisplay">Day 1</div>
 <div class="game-container">
 
   <!-- Pet Selection Screen -->
   <div class="select-screen" id="selectScreen">
     <h1>Pet Loving Simulator</h1>
+    <p class="welcome-line">Welcome to Pet Loving Simulator. Enjoy!</p>
     <p>Choose a pet to love and take care of!</p>
-    <div class="pet-grid">
-      <div class="pet-card" onclick="choosePet('bunny')">
+    <div class="pet-grid" id="petGrid">
+      <div class="pet-card" data-pet="bunny" onclick="choosePet('bunny')">
         <img class="pet-img" src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=200" alt="Bunny">
         <span class="name">Bunny Rabbit</span>
+        <span class="lock-badge" id="badgeBunny" style="display:none"></span>
       </div>
-      <div class="pet-card" onclick="choosePet('dog')">
+      <div class="pet-card" data-pet="dog" onclick="choosePet('dog')">
         <img class="pet-img" src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200" alt="Dog">
         <span class="name">Dog</span>
+        <span class="lock-badge" id="badgeDog" style="display:none"></span>
       </div>
-      <div class="pet-card" onclick="choosePet('cat')">
+      <div class="pet-card" data-pet="cat" onclick="choosePet('cat')">
         <img class="pet-img" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=200" alt="Cat">
         <span class="name">Cat</span>
+        <span class="lock-badge" id="badgeCat" style="display:none"></span>
       </div>
-      <div class="pet-card" onclick="choosePet('hamster')">
+      <div class="pet-card" data-pet="hamster" onclick="choosePet('hamster')">
         <img class="pet-img" src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200" alt="Hamster">
         <span class="name">Hamster</span>
+        <span class="lock-badge" id="badgeHamster" style="display:none"></span>
       </div>
-      <div class="pet-card" onclick="choosePet('fish')">
-        <img class="pet-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=200" alt="Fish">
+      <div class="pet-card" data-pet="fish" onclick="choosePet('fish')">
+        <img class="pet-img" src="https://images.unsplash.com/photo-1592072467526-0506c6530493?w=200" alt="Fish">
         <span class="name">Fish</span>
+        <span class="lock-badge" id="badgeFish" style="display:none"></span>
       </div>
     </div>
   </div>
@@ -1058,7 +1235,7 @@
         <span class="pet-type-label" id="petTypeLabel"></span>
         <span id="petNameDisplay"></span>
       </div>
-      <div style="width:40px;"></div>
+      <button class="customize-btn" onclick="openCustomizeOverlay()" title="Change colour/style">🎨</button>
     </div>
 
     <div class="pet-area" id="petArea">
@@ -1078,7 +1255,7 @@
         <div class="stat-label">😊 Happiness</div>
         <div class="stat-bar-bg"><div class="stat-bar happiness" id="happinessBar"></div></div>
       </div>
-      <div class="stat-item">
+      <div class="stat-item" id="cleanlinessStatItem">
         <div class="stat-label">🧼 Cleanliness</div>
         <div class="stat-bar-bg"><div class="stat-bar cleanliness" id="cleanlinessBar"></div></div>
       </div>
@@ -1095,7 +1272,7 @@
       <button class="action-btn play" id="playBtn" onclick="openPlayOverlay()">
         <span class="icon">🎾</span> Play
       </button>
-      <button class="action-btn clean" onclick="openCleanOverlay()">
+      <button class="action-btn clean" id="cleanBtn" onclick="openCleanOverlay()">
         <span class="icon">🛁</span> Clean
       </button>
       <button class="action-btn coddle" onclick="startCoddleMode()">
@@ -1181,9 +1358,38 @@
     <img class="modal-pet-img" id="modalPetImg" alt="Pet" src="">
     <h2>Name Your Pet!</h2>
     <p id="modalPrompt"></p>
+    <p class="modal-lock-warning" id="modalLockWarning">When you choose this pet, the other pets will be locked for 7 days. You can only care for one at a time.</p>
     <input type="text" id="nameInput" placeholder="Type a name..." maxlength="20" autocomplete="off">
     <div class="warning-text" id="nameWarning"></div>
     <button class="confirm-btn" onclick="confirmName()">Let's Go!</button>
+  </div>
+</div>
+
+<!-- Death overlay -->
+<div class="death-overlay" id="deathOverlay">
+  <div class="death-box">
+    <h2>😢 Your pet didn't make it...</h2>
+    <p id="deathMessage">You didn't care for your pet for over a week.</p>
+    <button class="start-over-btn" onclick="startOverAfterDeath()">Start over</button>
+  </div>
+</div>
+
+<!-- Screaming / neglected message -->
+<div class="scream-overlay" id="screamOverlay">
+  <div class="scream-box">
+    <p id="screamText">I'm so hungry! Help me, I'm gonna die!</p>
+    <button class="ok-btn" onclick="closeScreamModal()">I'll help you!</button>
+  </div>
+</div>
+
+<!-- Customize (colour/style) overlay -->
+<div class="customize-overlay" id="customizeOverlay">
+  <div class="customize-box">
+    <div class="customize-header">
+      <span class="customize-title">🎨 Change colour / style</span>
+      <button class="overlay-close" onclick="closeCustomizeOverlay()">✕</button>
+    </div>
+    <div class="customize-body" id="customizeBody"></div>
   </div>
 </div>
 
@@ -1193,6 +1399,11 @@
       emoji: '🐰',
       image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400',
       label: 'Bunny Rabbit',
+      variants: [
+        { id: 'white', name: 'White', image: 'https://images.unsplash.com/photo-1602557496847-11ea01879c87?w=400' },
+        { id: 'brown', name: 'Brown', image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=400' },
+        { id: 'grey', name: 'Grey', image: 'https://images.unsplash.com/photo-1756789347831-9450849b3ac5?w=400' }
+      ],
       foods: ['🥕','🥬','🌿','🥒','🥗','🍎'],
       phrases: {
         feed: ['*munch munch* Yummy carrots!', '*nibble nibble* So tasty!', 'Nom nom! Thank you!'],
@@ -1205,7 +1416,8 @@
         hungry: ['*nibbles at air* Feed me?', '*looks at food bowl sadly*'],
         sad: ['*ears droop down*', '*sits alone quietly*'],
         dirty: ['*fur looks messy*', '*itches behind ear*'],
-        tired: ['*yawns widely*', '*eyelids drooping*']
+        tired: ['*yawns widely*', '*eyelids drooping*'],
+        desperate: ['I\'m so hungry! Help me, I\'m gonna die!', 'You left me! Please feed me!', 'I thought you loved me! Feed me!']
       },
       reactions: ['❤️', '🥕', '🌸', '✨', '💕']
     },
@@ -1213,6 +1425,12 @@
       emoji: '🐶',
       image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400',
       label: 'Dog',
+      variants: [
+        { id: 'golden', name: 'Golden', image: 'https://images.unsplash.com/photo-1758543535656-4413fc336b78?w=400' },
+        { id: 'brown', name: 'Brown', image: 'https://images.unsplash.com/photo-1689723671100-9826d18332c1?w=400' },
+        { id: 'black', name: 'Black', image: 'https://images.unsplash.com/photo-1534351450181-ea9f78427fe8?w=400' },
+        { id: 'sprocker', name: 'Sprocker', image: 'https://images.unsplash.com/photo-1750924378381-3fbdfcdc67bb?w=400' }
+      ],
       foods: ['🍗','🥩','🍖','🥕','🍎','🥦'],
       phrases: {
         feed: ['*CHOMP CHOMP* Yum!', '*wags tail* More treats please!', '*gobbles food* Delicious!'],
@@ -1225,7 +1443,8 @@
         hungry: ['*stares at food bowl*', '*whimpers by the kitchen*'],
         sad: ['*puts head on paws*', '*gives puppy dog eyes*'],
         dirty: ['*rolls in something again*', '*scratches behind ear*'],
-        tired: ['*curls up in a ball*', '*big sleepy yawn*']
+        tired: ['*curls up in a ball*', '*big sleepy yawn*'],
+        desperate: ['I\'m so hungry! Help me, I\'m gonna die!', 'WOOF! You left me! Feed me!', 'Please don\'t leave me again! I need you!']
       },
       reactions: ['❤️', '🦴', '⭐', '✨', '💕']
     },
@@ -1233,6 +1452,12 @@
       emoji: '🐱',
       image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400',
       label: 'Cat',
+      variants: [
+        { id: 'ginger', name: 'Ginger', image: 'https://images.unsplash.com/photo-1628712911800-e700e3f8cd32?w=400' },
+        { id: 'black', name: 'Black', image: 'https://images.unsplash.com/photo-1617121544601-f9cd0e8f73b2?w=400' },
+        { id: 'white', name: 'White', image: 'https://images.unsplash.com/photo-1769240240868-0edd522a94aa?w=400' },
+        { id: 'tabby', name: 'Tabby', image: 'https://images.unsplash.com/photo-1557743952-b088259408a2?w=400' }
+      ],
       foods: ['🍗','🐟','🥩','🥛','🍖','🥓'],
       phrases: {
         feed: ['*delicately eats* Acceptable.', '*purrs while eating*', 'Finally. I was starving.'],
@@ -1245,7 +1470,8 @@
         hungry: ['*meows LOUDLY at you*', '*sits by food bowl pointedly*'],
         sad: ['*hides under blanket*', '*ignores everything*'],
         dirty: ['*licks paw disapprovingly*', '*fur looks ruffled*'],
-        tired: ['*finds a sunbeam to nap in*', '*stretches and yawns*']
+        tired: ['*finds a sunbeam to nap in*', '*stretches and yawns*'],
+        desperate: ['I\'m so hungry! Help me, I\'m gonna die!', 'MEOW! You abandoned me! Feed me!', 'I need food! Please!']
       },
       reactions: ['❤️', '🐟', '🧶', '✨', '💕']
     },
@@ -1253,6 +1479,11 @@
       emoji: '🐹',
       image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400',
       label: 'Hamster',
+      variants: [
+        { id: 'blonde', name: 'Blonde', image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400' },
+        { id: 'brunette', name: 'Brunette', image: 'https://images.unsplash.com/photo-1452721226468-f95fb66ebf83?w=400' },
+        { id: 'grey', name: 'Grey', image: 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=400' }
+      ],
       foods: ['🌻','🥕','🥬','🥜','🍎','🥒'],
       phrases: {
         feed: ['*stuffs cheeks full* Mmph!', '*tiny nibbles* Yummy seeds!', '*cheeks bulging* Saving for later!'],
@@ -1265,14 +1496,21 @@
         hungry: ['*tiny squeak squeak*', '*cheeks are empty... sad*'],
         sad: ['*curls into tiny ball*', '*hides in corner*'],
         dirty: ['*bedding needs changing*', '*rolls around messily*'],
-        tired: ['*burrows into bedding*', '*tiny yawns*']
+        tired: ['*burrows into bedding*', '*tiny yawns*'],
+        desperate: ['I\'m so hungry! Help me, I\'m gonna die!', 'Squeak! You left me! Feed me!', 'Please come back! I need food!']
       },
       reactions: ['❤️', '🌻', '⭐', '✨', '💕']
     },
     fish: {
       emoji: '🐟',
-      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400',
+      image: 'https://images.unsplash.com/photo-1592072467526-0506c6530493?w=400',
       label: 'Fish',
+      variants: [
+        { id: 'orange', name: 'Orange', image: 'https://images.unsplash.com/photo-1592072467526-0506c6530493?w=400' },
+        { id: 'pink', name: 'Pink', image: 'https://images.unsplash.com/photo-1531523940451-a03c6ad4863d?w=400' },
+        { id: 'blue', name: 'Blue', image: 'https://images.unsplash.com/photo-1739257453377-b2abcf61c474?w=400' },
+        { id: 'striped', name: 'Striped', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400' }
+      ],
       foods: ['🐟','🦐','🌿','🥣'],
       phrases: {
         feed: ['*nibbles flakes*', '*swims happily*', '*little bubbles*'],
@@ -1285,11 +1523,18 @@
         hungry: ['*at the surface*', '*looking for food*'],
         sad: ['*hiding*', '*slow swimming*'],
         dirty: ['*water cloudy*', '*needs clean tank*'],
-        tired: ['*resting by the plants*', '*calm*']
+        tired: ['*resting by the plants*', '*calm*'],
+        desperate: ['I\'m so hungry! Help me! Please feed me!', 'You left me! I need food!', 'Blub blub! Feed me! I\'m starving!']
       },
       reactions: ['❤️', '🐟', '🫧', '✨', '💕']
     }
   };
+
+  const STORAGE_KEYS = { firstVisit: 'petGame_firstVisit', lastVisit: 'petGame_lastVisit', lastCare: 'petGame_lastCare', petChosenTime: 'petGame_petChosenTime', currentPet: 'petGame_currentPet', petName: 'petGame_petName', petVariant: 'petGame_petVariant', stats: 'petGame_stats' };
+  const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+  const LOCK_DAYS = 7;
+  const SCREAM_AFTER_MS = 60 * 60 * 1000;
+  const DECAY_CYCLE_MS = 4 * 60 * 60 * 1000;
 
   const TOYS = ['🎾','🧸','🪀','⚽','🎯','🪁'];
   const BUNNY_TOYS = ['🧸','🪀','🎾'];
@@ -1307,6 +1552,318 @@
   let lastHamsterSoundTime = 0;
   let lastDogSoundTime = 0;
   let lastBunnySoundTime = 0;
+  let lastSecretTapPet = null;
+  let lastSecretTapTime = 0;
+  let secretTapCount = 0;
+  const SECRET_TAP_MS = 3000;
+  const SECRET_TAPS_NEEDED = 5;
+
+  function getCurrentDay() {
+    var first = localStorage.getItem(STORAGE_KEYS.firstVisit);
+    if (!first) return 1;
+    return 1 + Math.floor((Date.now() - parseInt(first, 10)) / 86400000);
+  }
+  function updateDayDisplay() {
+    var el = document.getElementById('dayDisplay');
+    if (el) el.textContent = 'Day ' + getCurrentDay();
+  }
+  function saveGame() {
+    if (!currentPet) return;
+    try {
+      var first = localStorage.getItem(STORAGE_KEYS.firstVisit);
+      if (!first) localStorage.setItem(STORAGE_KEYS.firstVisit, String(Date.now()));
+      localStorage.setItem(STORAGE_KEYS.lastVisit, String(Date.now()));
+      localStorage.setItem(STORAGE_KEYS.currentPet, currentPet);
+      localStorage.setItem(STORAGE_KEYS.petName, petName);
+      localStorage.setItem(STORAGE_KEYS.stats, JSON.stringify(stats));
+      localStorage.setItem(STORAGE_KEYS.lastCare, String(Date.now()));
+      localStorage.setItem(STORAGE_KEYS.petChosenTime, String(Date.now()));
+      var v = getPetVariant();
+      if (v) localStorage.setItem(STORAGE_KEYS.petVariant, v);
+    } catch (e) {}
+  }
+  function getPetVariant() {
+    try { return localStorage.getItem(STORAGE_KEYS.petVariant); } catch (e) { return null; }
+  }
+  function setPetVariant(id) {
+    try { localStorage.setItem(STORAGE_KEYS.petVariant, id); } catch (e) {}
+  }
+  function getPetImage(type, variantId) {
+    var pet = PETS[type];
+    if (!pet) return '';
+    if (pet.variants && pet.variants.length) {
+      var v = pet.variants[0];
+      if (variantId) {
+        for (var i = 0; i < pet.variants.length; i++) {
+          if (pet.variants[i].id === variantId) { v = pet.variants[i]; break; }
+        }
+      }
+      return (v && v.image) ? v.image : pet.image;
+    }
+    return pet.image;
+  }
+  function applyPetVariantToDisplay() {
+    if (!currentPet) return;
+    var imgUrl = getPetImage(currentPet, getPetVariant());
+    var feedImg = document.getElementById('feedPetImg');
+    var playImg = document.getElementById('playPetImg');
+    var cleanImg = document.getElementById('cleanPetImg');
+    var modalImg = document.getElementById('modalPetImg');
+    if (feedImg) feedImg.src = imgUrl;
+    if (playImg) playImg.src = imgUrl;
+    if (cleanImg) cleanImg.src = imgUrl;
+    if (modalImg) modalImg.src = imgUrl;
+    var petDisplayImg = document.getElementById('petDisplay');
+    if (petDisplayImg && petDisplayImg.querySelector) {
+      var img = petDisplayImg.querySelector('img');
+      if (img) img.src = imgUrl;
+    }
+  }
+  function openCustomizeOverlay() {
+    if (!currentPet || !PETS[currentPet].variants) return;
+    var body = document.getElementById('customizeBody');
+    var current = getPetVariant();
+    body.innerHTML = '';
+    var grid = document.createElement('div');
+    grid.className = 'variant-grid';
+    PETS[currentPet].variants.forEach(function(v) {
+      var opt = document.createElement('div');
+      opt.className = 'variant-option' + (v.id === current ? ' selected' : '');
+      opt.dataset.variantId = v.id;
+      var img = document.createElement('img');
+      img.src = v.image;
+      img.alt = v.name;
+      var label = document.createElement('span');
+      label.className = 'variant-name';
+      label.textContent = v.name;
+      opt.appendChild(img);
+      opt.appendChild(label);
+      opt.addEventListener('click', function() {
+        setPetVariant(v.id);
+        applyPetVariantToDisplay();
+        grid.querySelectorAll('.variant-option').forEach(function(o) { o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        saveGameCareOnly();
+      });
+      grid.appendChild(opt);
+    });
+    body.appendChild(grid);
+    document.getElementById('customizeOverlay').classList.add('active');
+  }
+  function closeCustomizeOverlay() {
+    document.getElementById('customizeOverlay').classList.remove('active');
+  }
+  function saveGameCareOnly() {
+    try {
+      localStorage.setItem(STORAGE_KEYS.lastVisit, String(Date.now()));
+      localStorage.setItem(STORAGE_KEYS.lastCare, String(Date.now()));
+      if (currentPet) localStorage.setItem(STORAGE_KEYS.stats, JSON.stringify(stats));
+    } catch (e) {}
+  }
+  function loadGame() {
+    try {
+      var pet = localStorage.getItem(STORAGE_KEYS.currentPet);
+      var name = localStorage.getItem(STORAGE_KEYS.petName);
+      var st = localStorage.getItem(STORAGE_KEYS.stats);
+      if (!pet || !name) return false;
+      currentPet = pet;
+      petName = name;
+      if (st) {
+        var parsed = JSON.parse(st);
+        stats = { hunger: parsed.hunger !== undefined ? parsed.hunger : 70, happiness: parsed.happiness !== undefined ? parsed.happiness : 70, cleanliness: parsed.cleanliness !== undefined ? parsed.cleanliness : 70, energy: parsed.energy !== undefined ? parsed.energy : 70 };
+      }
+      return true;
+    } catch (e) { return false; }
+  }
+  function isDead() {
+    var lastCare = localStorage.getItem(STORAGE_KEYS.lastCare);
+    if (!lastCare) return false;
+    return (Date.now() - parseInt(lastCare, 10)) >= ONE_WEEK_MS;
+  }
+  function getLastVisitTime() {
+    var t = localStorage.getItem(STORAGE_KEYS.lastVisit);
+    return t ? parseInt(t, 10) : Date.now();
+  }
+  function applyAwayDecay() {
+    var last = getLastVisitTime();
+    var elapsed = Date.now() - last;
+    var cycles = Math.floor(elapsed / DECAY_CYCLE_MS);
+    for (var i = 0; i < cycles && i < 50; i++) {
+      stats.hunger = clamp(stats.hunger - 3);
+      stats.happiness = clamp(stats.happiness - 2);
+      stats.cleanliness = clamp(stats.cleanliness - 2);
+      stats.energy = clamp(stats.energy - 1);
+    }
+  }
+  function startOverAfterDeath() {
+    try {
+      localStorage.removeItem(STORAGE_KEYS.currentPet);
+      localStorage.removeItem(STORAGE_KEYS.petName);
+      localStorage.removeItem(STORAGE_KEYS.stats);
+      localStorage.removeItem(STORAGE_KEYS.lastCare);
+      localStorage.removeItem(STORAGE_KEYS.petChosenTime);
+      localStorage.removeItem(STORAGE_KEYS.petVariant);
+    } catch (e) {}
+    document.getElementById('deathOverlay').classList.remove('active');
+    currentPet = null;
+    petName = '';
+    stats = { hunger: 70, happiness: 70, cleanliness: 70, energy: 70 };
+    document.getElementById('careScreen').style.display = 'none';
+    document.getElementById('selectScreen').style.display = 'block';
+    updateDayDisplay();
+    updateSelectScreen();
+  }
+  function closeScreamModal() {
+    document.getElementById('screamOverlay').classList.remove('active');
+  }
+  function showScreamIfNeeded() {
+    var last = getLastVisitTime();
+    if (Date.now() - last < SCREAM_AFTER_MS) return;
+    var pet = PETS[currentPet];
+    var msg = pet && pet.phrases && pet.phrases.desperate ? randomFrom(pet.phrases.desperate) : 'I\'m so hungry! Help me, I\'m gonna die!';
+    document.getElementById('screamText').textContent = msg;
+    document.getElementById('screamOverlay').classList.add('active');
+  }
+  function initFromStorage() {
+    var first = localStorage.getItem(STORAGE_KEYS.firstVisit);
+    if (!first) localStorage.setItem(STORAGE_KEYS.firstVisit, String(Date.now()));
+    localStorage.setItem(STORAGE_KEYS.lastVisit, String(Date.now()));
+    updateDayDisplay();
+    if (!loadGame()) {
+      document.getElementById('selectScreen').style.display = 'block';
+      document.getElementById('careScreen').style.display = 'none';
+      updateSelectScreen();
+      return;
+    }
+    if (isDead()) {
+      var label = PETS[currentPet] ? PETS[currentPet].label : 'pet';
+      document.getElementById('deathMessage').textContent = 'You didn\'t care for ' + petName + ' for over a week.';
+      document.getElementById('deathOverlay').classList.add('active');
+      document.getElementById('selectScreen').style.display = 'none';
+      document.getElementById('careScreen').style.display = 'none';
+      return;
+    }
+    applyAwayDecay();
+    var pet = PETS[currentPet];
+    var petDisplayEl = document.getElementById('petDisplay');
+    petDisplayEl.innerHTML = '';
+    var img = document.createElement('img');
+    img.className = 'pet-img';
+    img.src = getPetImage(currentPet, getPetVariant());
+    img.alt = pet.label;
+    petDisplayEl.appendChild(img);
+    document.getElementById('petNameDisplay').textContent = petName;
+    document.getElementById('petTypeLabel').textContent = pet.label;
+    document.getElementById('selectScreen').style.display = 'none';
+    document.getElementById('careScreen').style.display = 'block';
+    var playBtn = document.getElementById('playBtn');
+    var visitBtn = document.getElementById('visitBtn');
+    var cleanBtn = document.getElementById('cleanBtn');
+    var cleanlinessStat = document.getElementById('cleanlinessStatItem');
+    if (currentPet === 'fish') {
+      if (playBtn) playBtn.style.display = 'none';
+      if (visitBtn) visitBtn.style.display = 'none';
+      if (cleanBtn) cleanBtn.style.display = 'none';
+      if (cleanlinessStat) cleanlinessStat.style.display = 'none';
+    } else {
+      if (playBtn) playBtn.style.display = '';
+      if (visitBtn) visitBtn.style.display = '';
+      if (cleanBtn) cleanBtn.style.display = '';
+      if (cleanlinessStat) cleanlinessStat.style.display = '';
+    }
+    updateBars();
+    updateMood();
+    if (decayInterval) clearInterval(decayInterval);
+    decayInterval = setInterval(decayStats, 4000);
+    if (!coddleSetupDone) {
+      setupCoddlePetArea();
+      coddleSetupDone = true;
+    }
+    setTimeout(showScreamIfNeeded, 600);
+  }
+
+  function getPetChosenTime() {
+    var t = localStorage.getItem(STORAGE_KEYS.petChosenTime);
+    return t ? parseInt(t, 10) : 0;
+  }
+  function getSavedCurrentPet() {
+    return localStorage.getItem(STORAGE_KEYS.currentPet);
+  }
+  function isPetLocked() {
+    var saved = getSavedCurrentPet();
+    if (!saved) return false;
+    var chosen = getPetChosenTime();
+    if (!chosen) return false;
+    return (Date.now() - chosen) < ONE_WEEK_MS;
+  }
+  function daysLeftUntilUnlock() {
+    var chosen = getPetChosenTime();
+    if (!chosen) return 0;
+    var elapsed = Date.now() - chosen;
+    var daysLeft = LOCK_DAYS - (elapsed / 86400000);
+    return Math.max(0, Math.ceil(daysLeft));
+  }
+  function updateSelectScreen() {
+    var saved = getSavedCurrentPet();
+    var locked = saved && isPetLocked();
+    var daysLeft = daysLeftUntilUnlock();
+    var petIds = ['bunny', 'dog', 'cat', 'hamster', 'fish'];
+    petIds.forEach(function(pet) {
+      var card = document.querySelector('.pet-card[data-pet="' + pet + '"]');
+      var badge = document.getElementById('badge' + pet.charAt(0).toUpperCase() + pet.slice(1));
+      if (!card) return;
+      card.classList.remove('locked', 'your-pet');
+      if (badge) badge.style.display = 'none';
+      if (locked) {
+        if (pet === saved) {
+          card.classList.add('your-pet');
+          if (badge) { badge.textContent = 'Your pet – tap to continue'; badge.style.display = 'block'; }
+        } else {
+          card.classList.add('locked');
+          if (badge) { badge.textContent = 'Unlocks in ' + daysLeft + ' day' + (daysLeft !== 1 ? 's' : '') + ''; badge.style.display = 'block'; }
+        }
+      }
+    });
+  }
+  function continueWithCurrentPet() {
+    loadGame();
+    var pet = PETS[currentPet];
+    if (!pet) return;
+    var petDisplayEl = document.getElementById('petDisplay');
+    petDisplayEl.innerHTML = '';
+    var img = document.createElement('img');
+    img.className = 'pet-img';
+    img.src = getPetImage(currentPet, getPetVariant());
+    img.alt = pet.label;
+    petDisplayEl.appendChild(img);
+    document.getElementById('petNameDisplay').textContent = petName;
+    document.getElementById('petTypeLabel').textContent = pet.label;
+    document.getElementById('selectScreen').style.display = 'none';
+    document.getElementById('careScreen').style.display = 'block';
+    var playBtn = document.getElementById('playBtn');
+    var visitBtn = document.getElementById('visitBtn');
+    var cleanBtn = document.getElementById('cleanBtn');
+    var cleanlinessStat = document.getElementById('cleanlinessStatItem');
+    if (currentPet === 'fish') {
+      if (playBtn) playBtn.style.display = 'none';
+      if (visitBtn) visitBtn.style.display = 'none';
+      if (cleanBtn) cleanBtn.style.display = 'none';
+      if (cleanlinessStat) cleanlinessStat.style.display = 'none';
+    } else {
+      if (playBtn) playBtn.style.display = '';
+      if (visitBtn) visitBtn.style.display = '';
+      if (cleanBtn) cleanBtn.style.display = '';
+      if (cleanlinessStat) cleanlinessStat.style.display = '';
+    }
+    updateBars();
+    updateMood();
+    if (decayInterval) clearInterval(decayInterval);
+    decayInterval = setInterval(decayStats, 4000);
+    if (!coddleSetupDone) {
+      setupCoddlePetArea();
+      coddleSetupDone = true;
+    }
+  }
 
   function playCatPurr() {
     if (currentPet !== 'cat') return;
@@ -1367,9 +1924,47 @@
   }
 
   function choosePet(type) {
+    var saved = getSavedCurrentPet();
+    var locked = saved && isPetLocked();
+    if (locked) {
+      if (type === saved) {
+        continueWithCurrentPet();
+        return;
+      }
+      var now = Date.now();
+      if (lastSecretTapPet === type && (now - lastSecretTapTime) < SECRET_TAP_MS) {
+        secretTapCount++;
+        lastSecretTapTime = now;
+        if (secretTapCount >= SECRET_TAPS_NEEDED) {
+          try { localStorage.removeItem(STORAGE_KEYS.petChosenTime); } catch (e) {}
+          lastSecretTapPet = null;
+          lastSecretTapTime = 0;
+          secretTapCount = 0;
+          updateSelectScreen();
+        var el = document.getElementById('selectScreen');
+        if (el) {
+          var toast = document.createElement('div');
+          toast.className = 'mood-bubble';
+          toast.style.position = 'fixed';
+          toast.style.top = '20px';
+          toast.style.left = '50%';
+          toast.style.transform = 'translateX(-50%)';
+          toast.style.zIndex = '999';
+          toast.textContent = 'All pets unlocked!';
+          document.body.appendChild(toast);
+          setTimeout(function() { toast.remove(); }, 2000);
+        }
+        }
+        return;
+      }
+      secretTapCount = 1;
+      lastSecretTapPet = type;
+      lastSecretTapTime = now;
+      return;
+    }
     currentPet = type;
     const pet = PETS[type];
-    document.getElementById('modalPetImg').src = pet.image;
+    document.getElementById('modalPetImg').src = getPetImage(type, null);
     document.getElementById('modalPetImg').alt = pet.label;
     document.getElementById('modalPrompt').textContent = `What will you name your ${pet.label.toLowerCase()}?`;
     document.getElementById('nameInput').value = '';
@@ -1391,6 +1986,7 @@
     petName = input;
     document.getElementById('nameModal').classList.remove('active');
     startGame();
+    saveGame();
   }
 
   function startGame() {
@@ -1401,7 +1997,7 @@
     petDisplayEl.innerHTML = '';
     const img = document.createElement('img');
     img.className = 'pet-img';
-    img.src = pet.image;
+    img.src = getPetImage(currentPet, getPetVariant());
     img.alt = pet.label;
     petDisplayEl.appendChild(img);
     document.getElementById('petNameDisplay').textContent = petName;
@@ -1413,12 +2009,18 @@
 
     var playBtn = document.getElementById('playBtn');
     var visitBtn = document.getElementById('visitBtn');
+    var cleanBtn = document.getElementById('cleanBtn');
+    var cleanlinessStat = document.getElementById('cleanlinessStatItem');
     if (currentPet === 'fish') {
       if (playBtn) playBtn.style.display = 'none';
       if (visitBtn) visitBtn.style.display = 'none';
+      if (cleanBtn) cleanBtn.style.display = 'none';
+      if (cleanlinessStat) cleanlinessStat.style.display = 'none';
     } else {
       if (playBtn) playBtn.style.display = '';
       if (visitBtn) visitBtn.style.display = '';
+      if (cleanBtn) cleanBtn.style.display = '';
+      if (cleanlinessStat) cleanlinessStat.style.display = '';
     }
 
     updateBars();
@@ -1430,6 +2032,7 @@
       setupCoddlePetArea();
       coddleSetupDone = true;
     }
+    updateDayDisplay();
   }
 
   function setupCoddlePetArea() {
@@ -1457,6 +2060,7 @@
         playHamsterCuddle();
         playDogCuddle();
         playBunnyCuddle();
+        saveGameCareOnly();
       }
     }
     function handleUp(e) {
@@ -1480,6 +2084,7 @@
         playHamsterCuddle();
         playDogCuddle();
         playBunnyCuddle();
+        saveGameCareOnly();
       }
     });
   }
@@ -1489,7 +2094,7 @@
     const overlay = document.getElementById('feedOverlay');
     const grid = document.getElementById('foodGrid');
     const feedPetImg = document.getElementById('feedPetImg');
-    feedPetImg.src = PETS[currentPet].image;
+    feedPetImg.src = getPetImage(currentPet, getPetVariant());
     feedPetImg.alt = PETS[currentPet].label;
     feedPetImg.classList.remove('munching');
     grid.innerHTML = '';
@@ -1538,6 +2143,7 @@
     updateBars();
     showMoodBubble(randomFrom(PETS[currentPet].phrases.feed));
     spawnReactions(PETS[currentPet].reactions, 'feed');
+    saveGameCareOnly();
     setTimeout(function() {
       document.getElementById('feedOverlay').classList.remove('active');
       document.getElementById('foodGrid').style.display = '';
@@ -1557,7 +2163,7 @@
     const playZone = document.getElementById('playZone');
     const playPetImg = document.getElementById('playPetImg');
     const playToy = document.getElementById('playToyEmoji');
-    playPetImg.src = PETS[currentPet].image;
+    playPetImg.src = getPetImage(currentPet, getPetVariant());
     playPetImg.alt = PETS[currentPet].label;
     playPetImg.style.animation = '';
     playPetImg.style.display = 'none';
@@ -1610,6 +2216,7 @@
           showMoodBubble(randomFrom(PETS[currentPet].phrases.play));
           spawnReactions(PETS[currentPet].reactions, 'play');
           updateMood();
+          saveGameCareOnly();
         }, duration);
       });
       grid.appendChild(el);
@@ -1634,7 +2241,7 @@
     const cleanPet = document.getElementById('cleanPetImg');
     const soap = document.getElementById('soapBar');
     const progressFill = document.getElementById('cleanProgressFill');
-    cleanPet.src = PETS[currentPet].image;
+    cleanPet.src = getPetImage(currentPet, getPetVariant());
     cleanPet.alt = PETS[currentPet].label;
     cleanPet.classList.remove('being-cleaned');
     progressFill.style.width = '0%';
@@ -1697,6 +2304,7 @@
           updateBars();
           showMoodBubble(randomFrom(PETS[currentPet].phrases.clean));
           spawnReactions(['✨', '🫧', '💧'], 'clean');
+          saveGameCareOnly();
           setTimeout(function() {
             overlay.classList.remove('active');
             showerRoom.classList.remove('water-on', 'pet-happy');
@@ -1760,10 +2368,13 @@
     document.getElementById('selectScreen').style.display = 'block';
     var playBtn = document.getElementById('playBtn');
     var visitBtn = document.getElementById('visitBtn');
+    var cleanBtn = document.getElementById('cleanBtn');
+    var cleanlinessStat = document.getElementById('cleanlinessStatItem');
     if (playBtn) playBtn.style.display = '';
     if (visitBtn) visitBtn.style.display = '';
-    currentPet = null;
-    petName = '';
+    if (cleanBtn) cleanBtn.style.display = '';
+    if (cleanlinessStat) cleanlinessStat.style.display = '';
+    updateSelectScreen();
   }
 
   function updateBars() {
@@ -1853,6 +2464,7 @@
     }
 
     updateBars();
+    saveGameCareOnly();
 
     const phrase = randomFrom(pet.phrases[action]);
     showMoodBubble(phrase);
@@ -1908,6 +2520,12 @@
 
   function randomFrom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFromStorage);
+  } else {
+    initFromStorage();
   }
 </script>
 
